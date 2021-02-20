@@ -50,6 +50,13 @@ module.exports = [{
    */
   devtool: 'source-map',
 
+  // Serve at http://localhost:9000/
+  devServer: {
+    contentBase: path.join(__dirname, ''),
+    compress: true,
+    port: 9000,
+  },
+
   /**
    * Webpack watches for changes
    */
@@ -68,7 +75,7 @@ module.exports = [{
 
   output: {
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '',
+    publicPath: '/dist',
     filename: '[name].js',
     chunkFilename: '[name].js',
   },
@@ -183,16 +190,20 @@ module.exports = [{
         ]
       },
 
-      // Image Resources in src/images
+      // Image Resources in src/assets
       {
         test: /\.(png|svg|jpe?g|gif)$/,
         loader: 'file-loader',
         include: /src\\assets/,
         options: {
           name: '[name].[ext]',
-          outputPath: 'images',
-          publicPath: '../images'
-        }
+          outputPath: '/images',
+          // context: path.resolve(__dirname, 'dist').replace(/\\/g, '/'),
+          // publicPath:  path.resolve(__dirname, 'dist/images').replace(/\\/g, '/'),
+          publicPath:  '../images',
+
+          esModule: false // <- here
+        },
       },
     ]
   },
